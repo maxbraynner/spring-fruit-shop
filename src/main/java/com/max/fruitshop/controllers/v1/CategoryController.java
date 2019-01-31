@@ -4,15 +4,11 @@ import com.max.fruitshop.api.v1.model.CategoryDTO;
 import com.max.fruitshop.api.v1.model.CategoryListDTO;
 import com.max.fruitshop.services.CategoryService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
@@ -23,16 +19,16 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<CategoryListDTO> getAllCategories() {
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryListDTO getAllCategories() {
         List<CategoryDTO> categories = categoryService.getAllCategories();
-        CategoryListDTO categoryListDTO = new CategoryListDTO(categories);
 
-        return new ResponseEntity<>(categoryListDTO, HttpStatus.OK);
+        return new CategoryListDTO(categories);
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<CategoryDTO> getByName(@PathVariable String name) {
-        CategoryDTO category = categoryService.getCategoryByName(name);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryDTO getByName(@PathVariable String name) {
+        return categoryService.getCategoryByName(name);
     }
 }
