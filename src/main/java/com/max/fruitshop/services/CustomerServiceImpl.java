@@ -3,6 +3,7 @@ package com.max.fruitshop.services;
 import com.max.fruitshop.api.v1.mapper.CustomerMapper;
 import com.max.fruitshop.api.v1.model.CustomerDTO;
 import com.max.fruitshop.domain.Customer;
+import com.max.fruitshop.exceptions.NotFoundException;
 import com.max.fruitshop.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
             returnDto.setCustomerUrl("/api/v1/customer/" + id);
 
             return returnDto;
-        }).orElseThrow(IllegalArgumentException::new);
+        }).orElseThrow(() -> new NotFoundException("Customer not found for id: " + id));
     }
 
     @Override
@@ -88,6 +89,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id).map(customer -> {
             customerRepository.delete(customer);
             return customerMapper.customerToCustomerDTO(customer);
-        }).orElseThrow(IllegalArgumentException::new);
+        }).orElseThrow(() -> new NotFoundException("Customer not found for id: " + id));
     }
 }
