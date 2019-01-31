@@ -82,4 +82,12 @@ public class CustomerServiceImpl implements CustomerService {
             return returnDto;
         }).orElseThrow(IllegalArgumentException::new);
     }
+
+    @Override
+    public CustomerDTO deleteCustomer(Long id) {
+        return customerRepository.findById(id).map(customer -> {
+            customerRepository.delete(customer);
+            return customerMapper.customerToCustomerDTO(customer);
+        }).orElseThrow(IllegalArgumentException::new);
+    }
 }
