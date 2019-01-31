@@ -1,6 +1,5 @@
 package com.max.fruitshop.controllers.v1;
 
-import com.max.fruitshop.api.v1.mapper.CustomerMapper;
 import com.max.fruitshop.api.v1.model.CustomerDTO;
 import com.max.fruitshop.api.v1.model.CustomerListDTO;
 import com.max.fruitshop.services.CustomerService;
@@ -16,11 +15,9 @@ import java.util.List;
 public class CustomerController {
 
     private CustomerService customerService;
-    private CustomerMapper customerMapper;
 
-    public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.customerMapper = customerMapper;
     }
 
     @GetMapping("/{id}")
@@ -29,7 +26,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomerListDTO> getAll(){
+    public ResponseEntity<CustomerListDTO> getAll() {
         List<CustomerDTO> customers = customerService.getAllCustomers();
         return new ResponseEntity<>(new CustomerListDTO(customers), HttpStatus.OK);
     }
@@ -37,5 +34,10 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> create(@RequestBody CustomerDTO customerDTO) {
         return new ResponseEntity<>(customerService.createCustomer(customerDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerDTO> update(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+        return new ResponseEntity<>(customerService.updateCustomer(id, customerDTO), HttpStatus.OK);
     }
 }
