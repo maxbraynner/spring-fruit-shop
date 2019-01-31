@@ -5,10 +5,13 @@ import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * para resetar as mensagens de outros erros
+ * deve herdar de: ResponseEntityExceptionHandler
+ */
 @ControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler {
 
     @ExceptionHandler({RestException.class})
     public ResponseEntity<ErrorMessage> restException(Exception ex) {

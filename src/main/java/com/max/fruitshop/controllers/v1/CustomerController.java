@@ -6,6 +6,7 @@ import com.max.fruitshop.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,13 +34,13 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDTO create(@RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO create(@Valid @RequestBody CustomerDTO customerDTO) {
         return customerService.createCustomer(customerDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerDTO update(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO update(@PathVariable Long id, @Valid @RequestBody CustomerDTO customerDTO) {
         return customerService.updateCustomer(id, customerDTO);
     }
 
