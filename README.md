@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/maxbraynner/spring-fruit-shop.svg?branch=master)](https://travis-ci.org/maxbraynner/spring-fruit-shop)
+[![CircleCI](https://circleci.com/gh/maxbraynner/spring-fruit-shop.svg?style=svg)](https://circleci.com/gh/maxbraynner/spring-fruit-shop)
 
 # spring-fruit-shop
 Estudando Spring
