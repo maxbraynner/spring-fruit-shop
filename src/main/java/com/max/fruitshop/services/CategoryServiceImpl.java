@@ -2,10 +2,12 @@ package com.max.fruitshop.services;
 
 import com.max.fruitshop.api.v1.mapper.CategoryMapper;
 import com.max.fruitshop.api.v1.model.CategoryDTO;
+import com.max.fruitshop.domain.Category;
 import com.max.fruitshop.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByName(String name) {
-        return categoryMapper.categoryToCategoryDTO(categoryRepository.findByName(name).get());
+        Optional<Category> category = categoryRepository.findByName(name);
+        return categoryMapper.categoryToCategoryDTO(category.get());
     }
 }
