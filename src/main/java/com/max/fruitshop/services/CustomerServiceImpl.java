@@ -2,6 +2,7 @@ package com.max.fruitshop.services;
 
 import com.max.fruitshop.api.v1.mapper.CustomerMapper;
 import com.max.fruitshop.api.v1.model.CustomerDTO;
+import com.max.fruitshop.controllers.v1.CustomerController;
 import com.max.fruitshop.domain.Customer;
 import com.max.fruitshop.exceptions.NotFoundException;
 import com.max.fruitshop.repositories.CustomerRepository;
@@ -26,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll().stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/" + customer.getId());
+                    customerDTO.setCustomerUrl(CustomerController.BASE_URL + "/" + customer.getId());
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -37,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id)
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/" + customer.getId());
+                    customerDTO.setCustomerUrl(CustomerController.BASE_URL + "/" + customer.getId());
                     return customerDTO;
                 })
                 .orElseThrow(RuntimeException::new);
@@ -53,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-        customerDTO.setCustomerUrl("v1/customers/" + customer.getId());
+        customerDTO.setCustomerUrl(CustomerController.BASE_URL+ "/" + customer.getId());
 
         return customerDTO;
     }
@@ -78,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
 
             CustomerDTO returnDto = customerMapper.customerToCustomerDTO(customer);
-            returnDto.setCustomerUrl("/api/v1/customer/" + id);
+            returnDto.setCustomerUrl(CustomerController.BASE_URL + "/" + id);
 
             return returnDto;
         }).orElseThrow(() -> new NotFoundException("Customer not found for id: " + id));
