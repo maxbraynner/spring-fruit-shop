@@ -6,6 +6,7 @@ import com.max.fruitshop.domain.Category;
 import com.max.fruitshop.repositories.CategoryRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -20,13 +21,13 @@ public class CategoryServiceImplTest {
 
     private final String NAME = "Max";
 
+    @InjectMocks
     private CategoryServiceImpl categoryService;
 
     @Mock
     private CategoryRepository categoryRepository;
 
-    @Mock
-    private CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     @Before
     public void setUp() {
@@ -45,7 +46,6 @@ public class CategoryServiceImplTest {
 
         Mockito.when(categoryRepository.findAll()).thenReturn(categoriesData);
         Mockito.when(categoryRepository.findByName(NAME)).thenReturn(Optional.of(category));
-        Mockito.when(categoryMapper.categoryToCategoryDTO(category)).thenReturn(categoryDTO);
     }
 
     @Test
