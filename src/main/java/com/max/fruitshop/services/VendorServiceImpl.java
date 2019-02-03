@@ -56,8 +56,10 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public VendorDTO deleteVendor(Long id) {
         return vendorRepository.findById(id).map(vendor -> {
+
             vendorRepository.delete(vendor);
             return vendorMapper.vendorToVendorDTO(vendor);
+
         }).orElseThrow(()-> new NotFoundException("Vendor not founded by id: " + id));
     }
 }
