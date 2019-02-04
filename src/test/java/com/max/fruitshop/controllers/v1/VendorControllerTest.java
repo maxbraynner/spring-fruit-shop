@@ -1,16 +1,15 @@
 package com.max.fruitshop.controllers.v1;
 
 import com.max.fruitshop.api.v1.model.VendorDTO;
-import com.max.fruitshop.controllers.RestExceptionHandler;
 import com.max.fruitshop.services.VendorService;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,27 +21,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = {VendorController.class})
 public class VendorControllerTest extends AbstractRestControllerTest {
 
     private static final String NAME = "Max";
     private static final Long ID = 1L;
 
-    @Mock
+    @MockBean
     private VendorService vendorService;
 
-    @InjectMocks
-    private VendorController vendorController;
-
+    @Autowired
     private MockMvc mockMvc;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        mockMvc =  MockMvcBuilders.standaloneSetup(vendorController)
-                .setControllerAdvice(new RestExceptionHandler())
-                .build();
-    }
 
     @Test
     public void getVendorById() throws Exception {
