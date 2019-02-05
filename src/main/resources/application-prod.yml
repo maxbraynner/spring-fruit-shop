@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${DATASOURCE_URL}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    show-sql: false
