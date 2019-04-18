@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,5 +19,8 @@ public class AppUser {
     private String username;
 
     private String password;
+
+    @ManyToMany
+    private Set<Role> roles;
 
 }

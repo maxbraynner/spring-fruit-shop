@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -21,13 +21,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<AppUser> appUser = userRepository.findByUsername(username);
+        Optional<AppUser> optAppUser = userRepository.findByUsername(username);
 
-        if (!appUser.isPresent()) {
+        if (!optAppUser.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
 
-        return new User(appUser.get().getUsername(), appUser.get().getPassword(), Collections.emptyList());
+        AppUser appUser = optAppUser.get();
+
+        return User//
+                .withUsername(appUser.getUsername())//
+                .password(appUser.getPassword())//
+                .authorities(appUser.getRoles())//
+                .accountExpired(false)//
+                .accountLocked(false)//
+                .credentialsExpired(false)//
+                .disabled(false)//
+                .build();
     }
 }

@@ -4,6 +4,7 @@ import com.max.fruitshop.api.v1.model.CustomerDTO;
 import com.max.fruitshop.api.v1.model.CustomerListDTO;
 import com.max.fruitshop.services.CustomerService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,6 +36,7 @@ public class CustomerController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO create(@Valid @RequestBody CustomerDTO customerDTO) {
         return customerService.createCustomer(customerDTO);

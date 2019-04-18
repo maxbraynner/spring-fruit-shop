@@ -23,22 +23,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
+                .antMatchers(HttpMethod.POST, JwtTokenProvider.SIGN_UP_URL)
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtTokenProvider))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtTokenProvider))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
